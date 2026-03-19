@@ -1,19 +1,19 @@
 # BÀI TẬP LỚN MÔN TRÍ TUỆ NHÂN TẠO VÀ HỌC MÁY
 
-#Bước 1: Chuẩn bị trên Google Colab
+# Bước 1: Chuẩn bị trên Google Colab
 Truy cập colab.research.google.com.
 
 - Nhấn New Notebook.
 
 - Đổi môi trường chạy (Rất quan trọng): Vào menu Runtime -> Change runtime type -> Chọn T4 GPU. Việc này giúp huấn luyện AI nhanh gấp 10-20 lần so với dùng CPU.
 
-#Bước 2: Lấy API Key từ Kaggle (Để tải dữ liệu)
+ # Bước 2: Lấy API Key từ Kaggle (Để tải dữ liệu)
 Vì code của bạn tải dữ liệu trực tiếp từ Kaggle, bạn cần file kaggle.json:
 - Đăng nhập vào Kaggle.com.
 - Vào phần Settings tài khoản của bạn.
 - Tìm mục API, nhấn vào Create New Token.
 - Một file tên kaggle.json sẽ được tải về máy tính. Hãy giữ file này.
-Bước 3: Chạy Code huấn luyện trên Colab
+# Bước 3: Chạy Code huấn luyện trên Colab
 Chạy code trong 1 cell:
 import os
 import zipfile
@@ -102,7 +102,7 @@ model = models.Sequential([
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 print("\n🚀 Bắt đầu huấn luyện...")
-# Train 10 epochs để có độ chính xác ổn định trước khi tải file .h5
+Train 10 epochs để có độ chính xác ổn định trước khi tải file .h5
 model.fit(train_gen, validation_data=val_gen, epochs=10)
 
 
@@ -113,10 +113,10 @@ print(f"\n✔️ Đã lưu mô hình thành công: {model_filename}")
 files.download(model_filename)
 --> sau đó file skin_disease_final_model.h5 sẽ tự động được tải về
 
-#Bước 3: Tạo giao diện và liên kết dataset với giao diện
+# Bước 4: Tạo giao diện và liên kết dataset với giao diện
 - Mở Pycharm tạo 1 folder đặt tên "AIhealth", tạo 1 file 'app.py' và thiết lập code có trên file app.py
 - di chuyển file skin_disease_final_model.h5 vào folder AIhealth
 
-#Bước 4. chạy file app.py với lệnh streamlit run app.py
+# Bước 5. chạy file app.py với lệnh streamlit run app.py
   
    
