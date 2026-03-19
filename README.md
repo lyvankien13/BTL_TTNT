@@ -1,13 +1,13 @@
 # BÀI TẬP LỚN MÔN TRÍ TUỆ NHÂN TẠO VÀ HỌC MÁY
 
-Bước 1: Chuẩn bị trên Google Colab
+#Bước 1: Chuẩn bị trên Google Colab
 Truy cập colab.research.google.com.
 
 - Nhấn New Notebook.
 
 - Đổi môi trường chạy (Rất quan trọng): Vào menu Runtime -> Change runtime type -> Chọn T4 GPU. Việc này giúp huấn luyện AI nhanh gấp 10-20 lần so với dùng CPU.
 
-Bước 2: Lấy API Key từ Kaggle (Để tải dữ liệu)
+#Bước 2: Lấy API Key từ Kaggle (Để tải dữ liệu)
 Vì code của bạn tải dữ liệu trực tiếp từ Kaggle, bạn cần file kaggle.json:
 - Đăng nhập vào Kaggle.com.
 - Vào phần Settings tài khoản của bạn.
@@ -23,9 +23,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras import layers, models
 
-# ==========================================
-# 1. CẤU HÌNH KAGGLE & TẢI DATASET
-# ==========================================
+
 if not os.path.exists('/content/kaggle.json'):
     print("Hãy upload file kaggle.json:")
     uploaded = files.upload()
@@ -40,9 +38,7 @@ print("Đang giải nén...")
 with zipfile.ZipFile('human-skin-diseases-image.zip', 'r') as zip_ref:
     zip_ref.extractall('skin_data')
 
-# ==========================================
-# 2. TỰ ĐỘNG DÒ ĐƯỜNG DẪN ẢNH (Sửa lỗi FileNotFoundError)
-# ==========================================
+
 def find_data_dir(root_path):
     for root, dirs, files_list in os.walk(root_path):
         # Nếu thư mục có nhiều hơn 3 thư mục con, khả năng cao đó là thư mục chứa các Class bệnh
@@ -62,9 +58,7 @@ if data_path:
 else:
     raise FileNotFoundError("Không tìm thấy thư mục chứa ảnh. Vui lòng kiểm tra lại file zip.")
 
-# ==========================================
-# 3. CHUẨN BỊ DATA GENERATOR
-# ==========================================
+
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 32
 
@@ -93,9 +87,7 @@ val_gen = datagen.flow_from_directory(
     subset='validation'
 )
 
-# ==========================================
-# 4. XÂY DỰNG VÀ HUẤN LUYỆN (TRANSFER LEARNING)
-# ==========================================
+
 base_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, weights='imagenet')
 base_model.trainable = False
 
@@ -113,9 +105,7 @@ print("\n🚀 Bắt đầu huấn luyện...")
 # Train 10 epochs để có độ chính xác ổn định trước khi tải file .h5
 model.fit(train_gen, validation_data=val_gen, epochs=10)
 
-# ==========================================
-# 5. LƯU VÀ TẢI FILE .H5
-# ==========================================
+
 model_filename = 'skin_disease_final_model.h5'
 model.save(model_filename)
 print(f"\n✔️ Đã lưu mô hình thành công: {model_filename}")
@@ -123,10 +113,10 @@ print(f"\n✔️ Đã lưu mô hình thành công: {model_filename}")
 files.download(model_filename)
 --> sau đó file skin_disease_final_model.h5 sẽ tự động được tải về
 
-Bước 3: Tạo giao diện và liên kết dataset với giao diện
+#Bước 3: Tạo giao diện và liên kết dataset với giao diện
 - Mở Pycharm tạo 1 folder đặt tên "AIhealth", tạo 1 file 'app.py' và thiết lập code có trên file app.py
 - di chuyển file skin_disease_final_model.h5 vào folder AIhealth
 
-Bước 4. chạy file app.py với lệnh streamlit run app.py
+#Bước 4. chạy file app.py với lệnh streamlit run app.py
   
    
